@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
+import VideoHero from "@/components/VideoHero";
 import { Link } from "react-router-dom";
 import { Briefcase, Heart, Users, ArrowRight } from "lucide-react";
 
