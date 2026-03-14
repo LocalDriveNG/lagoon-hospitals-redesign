@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
+import VideoHero from "@/components/VideoHero";
 import { useState } from "react";
 
 const departments = ["All", "Surgery", "Cardiology", "Paediatrics", "Obstetrics", "Internal Medicine", "Orthopaedics"];
