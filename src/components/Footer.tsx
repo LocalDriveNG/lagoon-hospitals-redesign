@@ -29,18 +29,24 @@ const Footer = () => {
             </p>
             <div className="flex gap-3 pt-2">
               {[
-                { icon: Facebook, href: "https://www.facebook.com/LagoonHospitals" },
-                { icon: XIcon, href: "https://twitter.com/LagoonHospitals", label: "X" },
-                { icon: Youtube, href: "https://www.youtube.com/channel/UCV-qp1z_RpXO_5WY3r37iXQ" },
-                { icon: Instagram, href: "https://www.instagram.com/lagoonhospitalsng/" },
-                { icon: Linkedin, href: "https://www.linkedin.com/company/lagoon-hospitals/" },
-                { icon: TikTokIcon, href: "https://www.tiktok.com/@lagoonhospitals", label: "TikTok" },
-                { icon: Mail, href: "mailto:livemorelife@lagoonhospitals.com" },
-              ].map(({ icon: Icon, href, label }) => (
+                { icon: "facebook", href: "https://www.facebook.com/LagoonHospitals" },
+                { icon: "x", href: "https://twitter.com/LagoonHospitals" },
+                { icon: "youtube", href: "https://www.youtube.com/channel/UCV-qp1z_RpXO_5WY3r37iXQ" },
+                { icon: "instagram", href: "https://www.instagram.com/lagoonhospitalsng/" },
+                { icon: "linkedin", href: "https://www.linkedin.com/company/lagoon-hospitals/" },
+                { icon: "tiktok", href: "https://www.tiktok.com/@lagoonhospitals" },
+                { icon: "mail", href: "mailto:livemorelife@lagoonhospitals.com" },
+              ].map(({ icon, href }) => (
                 <a key={href} href={href} target="_blank" rel="noopener noreferrer"
                   className="w-9 h-9 rounded-full bg-cream/10 flex items-center justify-center hover:bg-gold transition-colors"
-                  aria-label={label || "Social link"}>
-                  {typeof Icon === 'function' && Icon.toString().includes('svg') ? <Icon /> : <Icon className="w-4 h-4" />}
+                  aria-label={icon}>
+                  {icon === "facebook" && <Facebook className="w-4 h-4" />}
+                  {icon === "x" && <XIcon />}
+                  {icon === "youtube" && <Youtube className="w-4 h-4" />}
+                  {icon === "instagram" && <Instagram className="w-4 h-4" />}
+                  {icon === "linkedin" && <Linkedin className="w-4 h-4" />}
+                  {icon === "tiktok" && <TikTokIcon />}
+                  {icon === "mail" && <Mail className="w-4 h-4" />}
                 </a>
               ))}
             </div>
