@@ -16,6 +16,9 @@ import CareersPage from "./pages/CareersPage";
 import NewsPage from "./pages/NewsPage";
 import VideosPage from "./pages/VideosPage";
 import BookAppointmentPage from "./pages/BookAppointmentPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import PatientRightsPage from "./pages/PatientRightsPage";
+import HealthEducationPage from "./pages/HealthEducationPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +48,9 @@ const App = () => (
           <Route path="/news" element={<NewsPage />} />
           <Route path="/videos" element={<VideosPage />} />
           <Route path="/book-appointment" element={<BookAppointmentPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/patient-rights" element={<PatientRightsPage />} />
+          <Route path="/health-education" element={<HealthEducationPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
