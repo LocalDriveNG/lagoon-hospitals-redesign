@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
+import VideoHero from "@/components/VideoHero";
 import { Play } from "lucide-react";
 
 import lagoonBabies from "@/assets/videos/lagoon-babies.png";
