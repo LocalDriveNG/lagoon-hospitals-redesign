@@ -24,7 +24,7 @@ const CareersPage = () => {
           </p>
           <div className="gold-accent-line mt-4" />
         </div>
-      </section>
+      </VideoHero>
 
       {/* Why Work With Us */}
       <AnimateOnScroll>
