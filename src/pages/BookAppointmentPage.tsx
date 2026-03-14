@@ -30,13 +30,13 @@ const BookAppointmentPage = () => {
 
   return (
     <Layout>
-      <section className="page-hero">
-        <div className="container mx-auto px-4 relative z-10">
+      <VideoHero>
+        <div className="container mx-auto px-4">
           <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Book Appointment</h1>
           <p className="text-cream/70 font-body text-lg mt-4">Schedule your visit in a few easy steps.</p>
           <div className="gold-accent-line mt-4" />
         </div>
-      </section>
+      </VideoHero>
 
       <section className="py-16 md:py-24 px-4">
         <div className="container mx-auto max-w-2xl">
