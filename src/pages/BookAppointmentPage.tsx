@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
+import VideoHero from "@/components/VideoHero";
 import { useState } from "react";
 import { Calendar, MapPin, User, Phone, Mail, FileText, ChevronRight, ChevronLeft, Check } from "lucide-react";
 
