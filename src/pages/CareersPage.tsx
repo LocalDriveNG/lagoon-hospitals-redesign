@@ -16,7 +16,7 @@ const openings = [
 const CareersPage = () => {
   return (
     <Layout>
-      <section className="page-hero">
+      <VideoHero>
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Careers</h1>
           <p className="text-cream/70 font-body text-lg mt-4 max-w-xl">
