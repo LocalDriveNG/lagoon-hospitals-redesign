@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
+import VideoHero from "@/components/VideoHero";
 import { Play } from "lucide-react";
 
 import lagoonBabies from "@/assets/videos/lagoon-babies.png";
@@ -17,12 +18,12 @@ const videos = [
 const VideosPage = () => {
   return (
     <Layout>
-      <section className="page-hero">
-        <div className="container mx-auto px-4 relative z-10">
+      <VideoHero>
+        <div className="container mx-auto px-4">
           <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Video Updates</h1>
           <div className="gold-accent-line mt-4" />
         </div>
-      </section>
+      </VideoHero>
 
       <section className="py-16 md:py-24 px-4">
         <div className="container mx-auto">

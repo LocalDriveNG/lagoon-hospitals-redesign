@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone, Calendar } from "lucide-react";
+import { Menu, X, Calendar } from "lucide-react";
 import logoWhite from "@/assets/logo-white.png";
 
 const navLinks = [
@@ -87,11 +87,8 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTAs */}
+          {/* CTA - only Book Appointment */}
           <div className="hidden lg:flex items-center gap-3">
-            <a href="tel:+2347086393027" className="btn-emergency text-sm gap-2">
-              <Phone className="w-4 h-4" /> Emergency
-            </a>
             <Link to="/book-appointment" className="btn-gold text-sm gap-2">
               <Calendar className="w-4 h-4" /> Book Appointment
             </Link>
@@ -147,9 +144,6 @@ const Navbar = () => {
                 </div>
               ))}
               <div className="pt-4 space-y-3 border-t border-cream/10">
-                <a href="tel:+2347086393027" className="btn-emergency w-full text-sm gap-2 text-center">
-                  <Phone className="w-4 h-4" /> Emergency
-                </a>
                 <Link to="/book-appointment" className="btn-gold w-full text-sm gap-2 text-center">
                   <Calendar className="w-4 h-4" /> Book Appointment
                 </Link>

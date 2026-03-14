@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
+import VideoHero from "@/components/VideoHero";
 import { Link } from "react-router-dom";
 import { Briefcase, Heart, Users, ArrowRight } from "lucide-react";
 
@@ -15,7 +16,7 @@ const openings = [
 const CareersPage = () => {
   return (
     <Layout>
-      <section className="page-hero">
+      <VideoHero>
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Careers</h1>
           <p className="text-cream/70 font-body text-lg mt-4 max-w-xl">
@@ -23,7 +24,7 @@ const CareersPage = () => {
           </p>
           <div className="gold-accent-line mt-4" />
         </div>
-      </section>
+      </VideoHero>
 
       {/* Why Work With Us */}
       <AnimateOnScroll>

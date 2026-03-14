@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Calendar, MapPin, Search, Phone, ChevronLeft, ChevronRight, Play, ArrowRight, Mail } from "lucide-react";
+import { Calendar, MapPin, Search, Phone, ChevronLeft, ChevronRight, Play, ArrowRight, Mail, Star } from "lucide-react";
 import Layout from "@/components/Layout";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
 
-import hero1 from "@/assets/hero/hero-1.jpg";
-import hero2 from "@/assets/hero/hero-2.jpg";
+import hero1 from "@/assets/hero/hero-doctor-child.jpg";
+import hero2 from "@/assets/hero/hero-reception.jpg";
 import hero3 from "@/assets/hero/hero-3.jpg";
 import breastCancerBanner from "@/assets/breast-cancer-banner.jpg";
 import ikoyiImg from "@/assets/locations/ikoyi.jpg";
@@ -14,6 +14,7 @@ import ikejaAdeniyiImg from "@/assets/locations/ikeja-adeniyi.jpg";
 import viLigaliImg from "@/assets/locations/vi-ligali.jpg";
 import viOutpatientImg from "@/assets/locations/vi-idejo-outpatient.jpg";
 import viWellnessImg from "@/assets/locations/vi-idejo-wellness.jpg";
+import wellnessImg from "@/assets/wellness-massage.jpg";
 import lagoonBabies from "@/assets/videos/lagoon-babies.png";
 import motherChild from "@/assets/videos/mother-child.jpg";
 import nicuImg from "@/assets/videos/nicu.jpg";
@@ -22,12 +23,11 @@ import fibroidsForum from "@/assets/news/fibroids-forum.png";
 import doctorsForum from "@/assets/news/doctors-forum.webp";
 import radioTalk from "@/assets/news/radio-talk.jpg";
 import breastCancer2024 from "@/assets/news/breast-cancer-2024.jpg";
-import testimonialsImg from "@/assets/testimonials-bg.png";
 
 const heroSlides = [
   { image: hero1, title: "We Will Look After You.", subtitle: "This is our promise to you.", cta: "Schedule An Appointment", link: "/book-appointment" },
-  { image: hero2, title: "Tune In To Classic FM 97.3", subtitle: "Your Health and You. Tuesdays 5:30 PM", cta: "Listen to Previous Shows", link: "/news" },
-  { image: hero3, title: "World-Class Healthcare", subtitle: "Leading private tertiary care in Nigeria with expert multi-disciplinary teams.", cta: "Explore Our Services", link: "/services" },
+  { image: hero2, title: "We Will Look After You.", subtitle: "This is our promise to you.", cta: "Schedule An Appointment", link: "/book-appointment" },
+  { image: hero3, title: "Tune In To Classic FM 97.3", subtitle: "Your Health and You. Tuesdays 5:30 PM", cta: "Listen to Previous Shows", link: "/health-education" },
 ];
 
 const services = [
@@ -44,10 +44,10 @@ const services = [
 ];
 
 const facilities = [
-  { name: "Iwosan Lagoon Hospital Ikoyi", desc: "Centre of Excellence for Critical Care & Complex Surgical Operations", link: "/facilities/ikoyi" },
-  { name: "Iwosan Lagoon Hospital Ikeja", desc: "Centre of Excellence for Mother and Child", link: "/facilities/ikeja" },
-  { name: "Iwosan Lagoon Hospital Victoria Island", desc: "Centre of Excellence for Cardiology & Cardiac Surgery", link: "/facilities/victoria-island" },
-  { name: "Iwosan Wellness Centre Victoria Island", desc: "Physical, Mental and Emotional Health", link: "/facilities/outpatient" },
+  { name: "Iwosan Lagoon Hospital Ikoyi", desc: "Centre of Excellence for Critical Care & Complex Surgical Operations", link: "/facilities/ikoyi", image: ikoyiImg },
+  { name: "Iwosan Lagoon Hospital Ikeja", desc: "Centre of Excellence for Mother and Child", link: "/facilities/ikeja", image: ikejaObaImg },
+  { name: "Iwosan Lagoon Hospital Victoria Island", desc: "Centre of Excellence for Cardiology & Cardiac Surgery", link: "/facilities/victoria-island", image: viLigaliImg },
+  { name: "Iwosan Wellness Centre Victoria Island", desc: "Physical, Mental and Emotional Health", link: "/facilities/outpatient", image: viWellnessImg },
 ];
 
 const videoUpdates = [
@@ -73,12 +73,43 @@ const locations = [
   { name: "Iwosan Lagoon Wellness Centre, VI", address: "13B Idejo Street, Victoria Island", phone: "07086393027", image: viWellnessImg, directions: "https://goo.gl/maps/J3h6PAsciJidoAbW6" },
 ];
 
+const reviews = [
+  { text: "The care I received at the Ikoyi branch was exceptional. The doctors were thorough and compassionate.", name: "Adaeze O.", location: "Ikoyi", initials: "AO" },
+  { text: "I had my baby at the Ikeja branch and the Mother and Child team made the entire experience beautiful and safe.", name: "Funke A.", location: "Ikeja", initials: "FA" },
+  { text: "The cardiology team at Victoria Island is world-class. I felt in safe hands throughout my treatment.", name: "Emeka N.", location: "Victoria Island", initials: "EN" },
+  { text: "The Wellness Centre completely changed my approach to health. Comprehensive, professional and warm.", name: "Temi B.", location: "Wellness Centre", initials: "TB" },
+  { text: "Booking an appointment was seamless and the staff were incredibly attentive from start to finish.", name: "Bola I.", location: "Ikoyi", initials: "BI" },
+];
+
+const hotlines = [
+  { facility: "Iwosan Lagoon Hospital Ikoyi", phone: "07086393027" },
+  { facility: "Iwosan Lagoon Hospital Ikeja", phone: "07086393027" },
+  { facility: "Iwosan Lagoon Hospital Victoria Island", phone: "09139383461" },
+  { facility: "Iwosan Lagoon Hospitals Outpatient PCS Line", phone: "09139352778" },
+  { facility: "Iwosan Wellness Centre", phone: "09139352779" },
+];
+
 const Index = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const reviewScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentSlide((s) => (s + 1) % heroSlides.length), 6000);
     return () => clearInterval(timer);
+  }, []);
+
+  // Auto-scroll reviews
+  useEffect(() => {
+    const el = reviewScrollRef.current;
+    if (!el) return;
+    const interval = setInterval(() => {
+      if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 10) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        el.scrollBy({ left: 320, behavior: "smooth" });
+      }
+    }, 4000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -87,7 +118,7 @@ const Index = () => {
       <section className="relative h-[85vh] min-h-[600px] overflow-hidden">
         {heroSlides.map((slide, i) => (
           <div key={i} className={`absolute inset-0 transition-opacity duration-1000 ${i === currentSlide ? "opacity-100" : "opacity-0"}`}>
-            <img src={slide.image} alt="" className="w-full h-full object-cover" />
+            <img src={slide.image} alt="" className="w-full h-full object-cover animate-[kenburns_20s_ease-in-out_infinite]" />
             <div className="absolute inset-0 bg-navy/60" />
           </div>
         ))}
@@ -103,7 +134,6 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Slide controls */}
         <button onClick={() => setCurrentSlide((s) => (s - 1 + heroSlides.length) % heroSlides.length)}
           className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-cream/10 backdrop-blur-sm flex items-center justify-center text-cream hover:bg-cream/20 transition-colors">
           <ChevronLeft className="w-5 h-5" />
@@ -113,7 +143,6 @@ const Index = () => {
           <ChevronRight className="w-5 h-5" />
         </button>
 
-        {/* Dots */}
         <div className="absolute bottom-28 left-1/2 -translate-x-1/2 flex gap-2">
           {heroSlides.map((_, i) => (
             <button key={i} onClick={() => setCurrentSlide(i)}
@@ -121,18 +150,20 @@ const Index = () => {
           ))}
         </div>
 
-        {/* Quick Access Cards */}
+        {/* Quick Access Cards with animations */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-full max-w-4xl px-4 z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
-              { icon: Calendar, label: "Appointment", to: "/book-appointment", color: "bg-navy" },
-              { icon: MapPin, label: "Locations", to: "/facilities", color: "bg-emerald" },
-              { icon: Search, label: "Services", to: "/services", color: "bg-gold" },
-              { icon: Phone, label: "Emergency", to: "tel:+2347086393027", color: "bg-destructive" },
-            ].map(({ icon: Icon, label, to, color }) => (
+              { icon: Calendar, label: "Appointment", to: "/book-appointment", color: "bg-navy", anim: "animate-[pulse_2s_ease-in-out_infinite]" },
+              { icon: MapPin, label: "Locations", to: "/facilities", color: "bg-emerald", anim: "animate-[bounce_2s_ease-in-out_infinite]" },
+              { icon: Search, label: "Services", to: "/services", color: "bg-gold", anim: "animate-[spin_4s_linear_infinite]" },
+              { icon: Phone, label: "Emergency", to: "tel:+2347086393027", color: "bg-destructive", anim: "animate-[ping_1.5s_ease-in-out_infinite]" },
+            ].map(({ icon: Icon, label, to, color, anim }) => (
               <Link key={label} to={to}
-                className={`${color} text-cream rounded-xl p-5 text-center card-hover flex flex-col items-center gap-2`}>
-                <Icon className="w-7 h-7" />
+                className={`${color} text-cream rounded-xl p-5 text-center card-hover flex flex-col items-center gap-2 group hover:shadow-[0_0_20px_hsl(var(--gold)/0.4)] transition-all`}>
+                <div className="relative">
+                  <Icon className={`w-7 h-7 ${anim}`} />
+                </div>
                 <span className="font-body font-medium text-sm">{label}</span>
               </Link>
             ))}
@@ -140,36 +171,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* EVENT BANNER */}
-      <AnimateOnScroll>
-        <section className="pt-24 pb-12 px-4">
-          <div className="container mx-auto">
-            <div className="bg-card rounded-2xl overflow-hidden shadow-lg flex flex-col lg:flex-row">
-              <div className="lg:w-1/3">
-                <img src={breastCancerBanner} alt="Breast Cancer Awareness" className="w-full h-full object-cover" />
-              </div>
-              <div className="lg:w-2/3 p-8 md:p-12 flex flex-col justify-center">
-                <span className="text-sm font-body font-semibold text-gold uppercase tracking-wider">Upcoming Event</span>
-                <h2 className="text-2xl md:text-3xl font-display font-bold text-primary mt-2">Breast Cancer Awareness Walk</h2>
-                <p className="text-muted-foreground font-body mt-2">Iwosan Lagoon Hospitals, Ikoyi — 17B Bourdillon Road, Ikoyi Lagos.</p>
-                <p className="text-lg font-body font-semibold text-primary mt-2">25th October, 2025 | 8:00 AM</p>
-                <a href="https://forms.cloud.microsoft/r/myMJbB0ENQ" target="_blank" rel="noopener noreferrer" className="btn-gold mt-6 self-start">
-                  Register Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-      </AnimateOnScroll>
-
       {/* SERVICES */}
       <AnimateOnScroll>
-        <section className="py-16 md:py-24 px-4">
+        <section className="pt-24 pb-16 md:py-24 px-4">
           <div className="container mx-auto">
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12">
-              <div>
-                <h2 className="section-heading">Explore Our Caring & Premium<br className="hidden md:block" /> Medical Services</h2>
-              </div>
+              <h2 className="section-heading">Explore Our Caring & Premium<br className="hidden md:block" /> Medical Services</h2>
               <Link to="/book-appointment" className="btn-gold mt-6 lg:mt-0 self-start">Book An Appointment</Link>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -196,8 +203,8 @@ const Index = () => {
               {facilities.map((f, i) => (
                 <Link key={i} to={f.link}
                   className="relative group overflow-hidden rounded-2xl h-64 md:h-72 card-hover">
+                  <img src={f.image} alt={f.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent z-10" />
-                  <div className="absolute inset-0 bg-navy/20 group-hover:bg-navy/40 transition-colors z-10" />
                   <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
                     <h3 className="font-display text-xl md:text-2xl font-bold text-cream">{f.name}</h3>
                     <p className="font-body text-sm text-gold mt-1">{f.desc}</p>
@@ -218,7 +225,7 @@ const Index = () => {
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="section-heading section-heading-center">Why Choose Iwosan Lagoon Hospitals?</h2>
             <p className="text-muted-foreground font-body text-lg leading-relaxed mt-8">
-              We are a consistently patient-first, world-class healthcare service provider and the leading private tertiary care organization in Nigeria. 
+              We are a consistently patient-first, world-class healthcare service provider and the leading private tertiary care organization in Nigeria.
               We operate a collegiate model of multi-disciplinary care and this bolsters the efficiency of highly specialized services delivered to each patient at all departments.
             </p>
             <Link to="/about" className="btn-navy mt-8">About Us</Link>
@@ -229,16 +236,23 @@ const Index = () => {
       {/* WELLNESS CENTRE */}
       <AnimateOnScroll>
         <section className="py-16 md:py-24 px-4 bg-navy">
-          <div className="container mx-auto max-w-4xl text-center">
-            <span className="text-gold font-body text-sm font-semibold uppercase tracking-wider">New</span>
-            <h2 className="text-3xl md:text-5xl font-display font-bold text-cream mt-3">Introducing Iwosan Wellness Centre</h2>
-            <div className="gold-accent-line mx-auto mt-4" />
-            <p className="text-cream/70 font-body text-lg leading-relaxed mt-8">
-              At Iwosan Wellness, we believe that true wellness is a harmonious balance of physical, mental and emotional health. 
-              That's why we are here to provide you with comprehensive wellness assessments and a wide range of lifestyle services 
-              designed to empower you on your journey to optimal health and wellness.
-            </p>
-            <Link to="/facilities/outpatient" className="btn-gold mt-8">Learn More</Link>
+          <div className="container mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div className="text-center lg:text-left">
+                <span className="text-gold font-body text-sm font-semibold uppercase tracking-wider">New</span>
+                <h2 className="text-3xl md:text-5xl font-display font-bold text-cream mt-3">Introducing Iwosan Wellness Centre</h2>
+                <div className="gold-accent-line mt-4 mx-auto lg:mx-0" />
+                <p className="text-cream/70 font-body text-lg leading-relaxed mt-8">
+                  At Iwosan Wellness, we believe that true wellness is a harmonious balance of physical, mental and emotional health.
+                  That's why we are here to provide you with comprehensive wellness assessments and a wide range of lifestyle services
+                  designed to empower you on your journey to optimal health and wellness.
+                </p>
+                <Link to="/facilities/outpatient" className="btn-gold mt-8">Learn More</Link>
+              </div>
+              <div className="rounded-2xl overflow-hidden shadow-2xl">
+                <img src={wellnessImg} alt="Iwosan Wellness Centre" className="w-full h-80 lg:h-96 object-cover" />
+              </div>
+            </div>
           </div>
         </section>
       </AnimateOnScroll>
@@ -294,55 +308,136 @@ const Index = () => {
                 </Link>
               ))}
             </div>
+            <div className="text-center mt-8">
+              <Link to="/news" className="btn-outline-gold">View More</Link>
+            </div>
           </div>
         </section>
       </AnimateOnScroll>
 
-      {/* LOCATIONS */}
-      <AnimateOnScroll>
-        <section className="py-16 md:py-24 px-4">
-          <div className="container mx-auto">
+      {/* LOCATIONS & DIRECTIONS - Enhanced */}
+      <section className="py-16 md:py-24 px-4 relative" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, hsl(var(--border)) 1px, transparent 0)", backgroundSize: "40px 40px" }}>
+        <div className="container mx-auto">
+          <AnimateOnScroll>
             <h2 className="section-heading section-heading-center text-center mb-4">Locations and Directions</h2>
             <p className="text-center text-muted-foreground font-body mb-12">Learn more about Iwosan Lagoon Hospitals or choose a specific location.</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {locations.map((loc, i) => (
-                <div key={i} className="bg-card rounded-xl overflow-hidden card-hover">
+          </AnimateOnScroll>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {locations.map((loc, i) => (
+              <AnimateOnScroll key={i} className={`transition-all duration-500`}>
+                <div className="bg-card rounded-xl overflow-hidden border-l-4 border-l-gold card-hover hover:shadow-[0_8px_30px_hsl(var(--gold)/0.15)] group">
                   <div className="aspect-video">
                     <img src={loc.image} alt={loc.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="p-5">
-                    <h3 className="font-display text-lg font-semibold text-primary">{loc.name}</h3>
-                    <p className="text-sm text-muted-foreground font-body mt-1">{loc.address}</p>
-                    <div className="flex gap-3 mt-4">
-                      <a href={`tel:+234${loc.phone.slice(1)}`} className="text-sm font-body text-gold hover:underline flex items-center gap-1">
-                        <Phone className="w-3.5 h-3.5" /> Click to Call
+                    <div className="flex items-start gap-2">
+                      <MapPin className="w-5 h-5 text-gold flex-shrink-0 mt-0.5 group-hover:animate-bounce" />
+                      <h3 className="font-display text-lg font-semibold text-primary">{loc.name}</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground font-body mt-2 ml-7">{loc.address}</p>
+                    <p className="text-sm text-muted-foreground font-body mt-1 ml-7">
+                      <Phone className="w-3 h-3 inline mr-1" />{loc.phone}
+                    </p>
+                    <div className="flex gap-3 mt-4 ml-7">
+                      <a href={`tel:+234${loc.phone.slice(1)}`} className="btn-outline-gold text-xs px-4 py-2">
+                        Call Now
                       </a>
-                      <a href={loc.directions} target="_blank" rel="noopener noreferrer" className="text-sm font-body text-gold hover:underline flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5" /> Get Directions
+                      <a href={loc.directions} target="_blank" rel="noopener noreferrer" className="btn-gold text-xs px-4 py-2">
+                        Get Directions
                       </a>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </AnimateOnScroll>
+            ))}
           </div>
-        </section>
-      </AnimateOnScroll>
+        </div>
+      </section>
 
-      {/* TESTIMONIALS */}
-      <AnimateOnScroll>
-        <section className="py-16 md:py-24 px-4 bg-navy">
-          <div className="container mx-auto text-center">
-            <h2 className="text-3xl md:text-5xl font-display font-bold text-cream mb-4">Valuable Feedback from our Patients</h2>
+      {/* HOTLINES */}
+      <section className="py-12 md:py-16 px-4 bg-navy">
+        <div className="container mx-auto">
+          <AnimateOnScroll>
+            <h2 className="text-2xl md:text-4xl font-display font-bold text-cream text-center mb-2">Our Hotlines</h2>
+            <div className="gold-accent-line mx-auto mb-10" />
+          </AnimateOnScroll>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {hotlines.map((h, i) => (
+              <a key={i} href={`tel:+234${h.phone.slice(1)}`}
+                className="flex items-center gap-4 bg-navy-light/50 border border-cream/10 rounded-xl p-4 hover:border-gold/50 transition-all group">
+                <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
+                  <Phone className="w-5 h-5 text-gold animate-[pulse_2s_ease-in-out_infinite]" />
+                </div>
+                <div>
+                  <p className="font-body text-sm text-cream/70">{h.facility}</p>
+                  <p className="font-body text-lg font-semibold text-gold group-hover:text-gold-light">{h.phone}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PATIENT REVIEWS */}
+      <section className="py-16 md:py-24 px-4 bg-navy">
+        <div className="container mx-auto">
+          <AnimateOnScroll>
+            <h2 className="text-3xl md:text-5xl font-display font-bold text-cream text-center mb-4">Valuable Feedback from our Patients</h2>
             <div className="gold-accent-line mx-auto mb-12" />
-            <div className="max-w-2xl mx-auto">
-              <img src={testimonialsImg} alt="Patient testimonials" className="mx-auto mb-8 rounded-xl max-h-40 object-contain" />
-              <blockquote className="text-cream/80 font-body text-lg italic leading-relaxed">
-                "The quality of care and attention I received at Iwosan Lagoon Hospitals was truly exceptional. The doctors and nurses made me feel safe and cared for throughout my treatment."
-              </blockquote>
-              <p className="text-gold font-body font-medium mt-4">— A Grateful Patient</p>
+          </AnimateOnScroll>
+
+          <div ref={reviewScrollRef} className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+            {reviews.map((r, i) => (
+              <div key={i} className="min-w-[300px] max-w-[350px] bg-card rounded-2xl p-6 flex-shrink-0 snap-start">
+                <div className="flex gap-1 mb-3">
+                  {[...Array(5)].map((_, j) => (
+                    <Star key={j} className="w-4 h-4 text-gold fill-gold" />
+                  ))}
+                </div>
+                <blockquote className="text-foreground font-body text-sm leading-relaxed italic">
+                  "{r.text}"
+                </blockquote>
+                <div className="flex items-center gap-3 mt-4">
+                  <div className="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-gold font-body font-semibold text-sm">
+                    {r.initials}
+                  </div>
+                  <div>
+                    <p className="font-body font-semibold text-sm text-primary">{r.name}</p>
+                    <span className="text-xs font-body bg-gold/10 text-gold px-2 py-0.5 rounded-full">{r.location}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <a href="https://forms.google.com" target="_blank" rel="noopener noreferrer"
+              className="btn-outline-gold border-cream/30 text-cream hover:bg-cream/10">
+              Leave A Review
+            </a>
+            <p className="text-cream/50 text-xs font-body mt-2">Your review will be sent to our team.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* EVENT BANNER - moved near bottom */}
+      <AnimateOnScroll>
+        <section className="py-12 px-4">
+          <div className="container mx-auto">
+            <div className="bg-card rounded-2xl overflow-hidden shadow-lg flex flex-col lg:flex-row">
+              <div className="lg:w-1/3">
+                <img src={breastCancerBanner} alt="Breast Cancer Awareness" className="w-full h-full object-cover" />
+              </div>
+              <div className="lg:w-2/3 p-8 md:p-12 flex flex-col justify-center">
+                <span className="text-sm font-body font-semibold text-gold uppercase tracking-wider">Upcoming Event</span>
+                <h2 className="text-2xl md:text-3xl font-display font-bold text-primary mt-2">Breast Cancer Awareness Walk</h2>
+                <p className="text-muted-foreground font-body mt-2">Iwosan Lagoon Hospitals, Ikoyi — 17B Bourdillon Road, Ikoyi Lagos.</p>
+                <p className="text-lg font-body font-semibold text-primary mt-2">25th October, 2025 | 8:00 AM</p>
+                <a href="https://forms.cloud.microsoft/r/myMJbB0ENQ" target="_blank" rel="noopener noreferrer" className="btn-gold mt-6 self-start">
+                  Register Now
+                </a>
+              </div>
             </div>
-            <a href="#" className="btn-outline-gold mt-8 border-cream/30 text-cream hover:bg-cream/10">Leave A Review</a>
           </div>
         </section>
       </AnimateOnScroll>
