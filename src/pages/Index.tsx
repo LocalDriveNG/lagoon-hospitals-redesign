@@ -28,7 +28,7 @@ import testimonialsBg from "@/assets/testimonials-bg.png";
 const heroSlides = [
   { image: heroReception, title: "Welcome to Iwosan Lagoon Hospitals", subtitle: "World-class healthcare, delivered with compassion.", cta: "Schedule an Appointment", link: "/book-appointment" },
   { image: heroDoctorChild, title: "We Will Look After You.", subtitle: "This is our promise to you.", cta: "Schedule An Appointment", link: "/book-appointment" },
-  { image: hero2, title: "Tune In To Classic FM 97.3", subtitle: "Your Health and You. Tuesdays 5:30 PM", cta: "Listen to Previous Shows", link: "/health-education" },
+  { image: hero2, title: "Tune In To Classic FM 97.3", subtitle: "Your Health and You. Tuesdays 5:30 PM", cta: "Listen to Previous Shows", link: "https://www.lagoonhospitals.com/updates/your-health-and-you-health-education-nigeria/" },
 ];
 
 const services = [
