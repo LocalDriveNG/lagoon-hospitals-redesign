@@ -8,15 +8,22 @@ interface VideoHeroProps {
 const VideoHero = ({ children, className = "" }: VideoHeroProps) => {
   return (
     <section className={`relative py-24 md:py-32 overflow-hidden ${className}`}>
-      {/* Vimeo background video */}
-      <div className="absolute inset-0 z-0">
+      {/* Vimeo background video - full width cover */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <iframe
-          src="https://player.vimeo.com/video/763318636?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
-          className="absolute w-[177.77vh] min-w-full min-h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{ border: 0 }}
+          src="https://player.vimeo.com/video/763318636?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&responsive=1"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{
+            border: 0,
+            width: "177.77vh",
+            height: "100vh",
+            minWidth: "100%",
+            minHeight: "100%",
+          }}
           allow="autoplay; fullscreen"
           allowFullScreen
           title="Background video"
+          loading="lazy"
         />
       </div>
       {/* Dark navy overlay */}

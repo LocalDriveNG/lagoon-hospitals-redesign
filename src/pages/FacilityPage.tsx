@@ -2,8 +2,8 @@ import Layout from "@/components/Layout";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
 import VideoHero from "@/components/VideoHero";
 import { Link, useParams } from "react-router-dom";
-import { MapPin, Phone, ArrowRight, ChevronDown, Shield, Heart, Clock, Users, Stethoscope, Activity, Baby, Building2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { MapPin, Phone, ArrowRight, ChevronLeft, ChevronRight, Shield, Heart, Clock, Users, Stethoscope, Activity, Baby, Building2 } from "lucide-react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 import ikoyiImg from "@/assets/locations/ikoyi.jpg";
 import ikejaObaImg from "@/assets/locations/ikeja-oba.jpg";
@@ -104,38 +104,46 @@ const facilityData: Record<string, {
 };
 
 const allFacilities = [
-  { id: "ikoyi", name: "Iwosan Lagoon Hospital Ikoyi", subtitle: "Centre of Excellence for Critical Care & Complex Surgical Operations", address: "17B Bourdillon Road, Ikoyi, Lagos", image: ikoyiImg, services: ["Neurosurgery", "General Surgery", "Critical Care", "Cardiology"] },
-  { id: "ikeja", name: "Iwosan Lagoon Hospital Ikeja", subtitle: "Centre of Excellence for Mother and Child", address: "97/101 Obafemi Awolowo Ave., Ikeja", image: ikejaObaImg, services: ["Obstetrics & Gynaecology", "Paediatrics & NICU", "Family Medicine"] },
-  { id: "victoria-island", name: "Iwosan Lagoon Hospital Victoria Island", subtitle: "Centre of Excellence for Cardiology & Cardiac Surgery", address: "3B Ligali Ayorinde Street, VI", image: viLigaliImg, services: ["Cardiology", "Cardiac Surgery", "Internal Medicine"] },
-  { id: "outpatient", name: "Iwosan Lagoon Outpatient Clinic & Wellness Centre", subtitle: "Ambulatory Care & Wellness Services", address: "13A & 13B Idejo Street, VI", image: viOutpatientImg, services: ["Wellness Assessments", "Physiotherapy", "Mental Health"] },
-  { id: "worksite", name: "Worksite Clinic Management", subtitle: "Occupational Health & Corporate Wellness", address: "Multiple locations across Lagos", image: viWellnessImg, services: ["On-site Clinic Management", "Employee Health Screening"] },
+  { id: "ikoyi", name: "Iwosan Lagoon Hospital Ikoyi", subtitle: "Centre of Excellence for Critical Care & Complex Surgical Operations", address: "17B Bourdillon Road, Ikoyi, Lagos", image: ikoyiImg, services: ["Neurosurgery", "General Surgery", "Critical Care", "Cardiology"], directions: "https://goo.gl/maps/aFi61XJmGfxWywri7" },
+  { id: "ikeja", name: "Iwosan Lagoon Hospital Ikeja", subtitle: "Centre of Excellence for Mother and Child", address: "97/101 Obafemi Awolowo Ave., Ikeja", image: ikejaObaImg, services: ["Obstetrics & Gynaecology", "Paediatrics & NICU", "Family Medicine"], directions: "https://maps.app.goo.gl/kh9CrhBPoXFDd7Ts8" },
+  { id: "victoria-island", name: "Iwosan Lagoon Hospital Victoria Island", subtitle: "Centre of Excellence for Cardiology & Cardiac Surgery", address: "3B Ligali Ayorinde Street, VI", image: viLigaliImg, services: ["Cardiology", "Cardiac Surgery", "Internal Medicine"], directions: "https://goo.gl/maps/QLrUbjX1AhGpsn228" },
+  { id: "outpatient", name: "Iwosan Lagoon Outpatient Clinic & Wellness Centre", subtitle: "Ambulatory Care & Wellness Services", address: "13A & 13B Idejo Street, VI", image: viOutpatientImg, services: ["Wellness Assessments", "Physiotherapy", "Mental Health"], directions: "https://goo.gl/maps/J3h6PAsciJidoAbW6" },
+  { id: "worksite", name: "Worksite Clinic Management", subtitle: "Occupational Health & Corporate Wellness", address: "Multiple locations across Lagos", image: viWellnessImg, services: ["On-site Clinic Management", "Employee Health Screening"], directions: "" },
 ];
 
 const FacilityPage = () => {
   const { facilityId } = useParams();
   const facility = facilityId ? facilityData[facilityId] : null;
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [activeSection, setActiveSection] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const timerRef = useRef<NodeJS.Timeout>();
+  const pausedRef = useRef(false);
 
-  // Snap-scroll observer for listing page
+  const startAutoScroll = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      if (!pausedRef.current) {
+        setCurrentSlide(s => (s + 1) % allFacilities.length);
+      }
+    }, 5000);
+  }, []);
+
   useEffect(() => {
     if (facilityId) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = sectionRefs.current.indexOf(entry.target as HTMLDivElement);
-            if (idx >= 0) setActiveSection(idx);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-    sectionRefs.current.forEach((ref) => ref && observer.observe(ref));
-    return () => observer.disconnect();
-  }, [facilityId]);
+    startAutoScroll();
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [facilityId, startAutoScroll]);
 
-  // Listing page - full-screen snap scroll
+  const handleManualNav = (dir: number) => {
+    pausedRef.current = true;
+    setCurrentSlide(s => (s + dir + allFacilities.length) % allFacilities.length);
+    if (timerRef.current) clearInterval(timerRef.current);
+    setTimeout(() => {
+      pausedRef.current = false;
+      startAutoScroll();
+    }, 4000);
+  };
+
+  // Listing page - horizontal auto-scrolling slider
   if (!facilityId) {
     return (
       <Layout>
@@ -147,25 +155,29 @@ const FacilityPage = () => {
           </div>
         </VideoHero>
 
-        {/* Snap-scroll sections */}
-        <div>
+        {/* Full-width horizontal slider */}
+        <section
+          className="relative h-[80vh] min-h-[500px] overflow-hidden"
+          onMouseEnter={() => { pausedRef.current = true; }}
+          onMouseLeave={() => { pausedRef.current = false; }}
+        >
           {allFacilities.map((f, i) => (
             <div
               key={f.id}
-              ref={(el) => { sectionRefs.current[i] = el; }}
-              className="min-h-screen relative flex items-center snap-start"
+              className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+                i === currentSlide ? "opacity-100 translate-x-0" :
+                i < currentSlide ? "opacity-0 -translate-x-full" : "opacity-0 translate-x-full"
+              }`}
             >
-              {/* Parallax background */}
-              <div className="absolute inset-0 z-0">
-                <img src={f.image} alt={f.name} className="w-full h-full object-cover" style={{ transform: "scale(1.1)" }} />
-                <div className="absolute inset-0 bg-navy/70" />
-              </div>
+              {/* Background image */}
+              <img src={f.image} alt={f.name} className="absolute inset-0 w-full h-full object-cover" loading={i === 0 ? "eager" : "lazy"} width={1920} height={1080} />
+              <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/60 to-transparent" />
 
-              <div className="relative z-10 container mx-auto px-4 py-24">
-                <AnimateOnScroll>
+              <div className="relative z-10 h-full flex items-center">
+                <div className="container mx-auto px-4">
                   <div className="max-w-2xl">
                     <span className="text-gold font-body text-sm font-semibold uppercase tracking-wider">{f.subtitle}</span>
-                    <h2 className="text-3xl md:text-5xl font-display font-bold text-cream mt-3">{f.name}</h2>
+                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-cream mt-3">{f.name}</h2>
                     <div className="gold-accent-line mt-4" />
                     <p className="text-cream/70 font-body mt-4 flex items-center gap-2">
                       <MapPin className="w-4 h-4 text-gold" /> {f.address}
@@ -177,23 +189,36 @@ const FacilityPage = () => {
                     </div>
                     <div className="flex gap-4 mt-8">
                       <Link to={`/facilities/${f.id}`} className="btn-gold">Learn More</Link>
-                      <a href="https://goo.gl/maps/aFi61XJmGfxWywri7" target="_blank" rel="noopener noreferrer" className="btn-outline-gold border-cream/30 text-cream hover:bg-cream/10">
-                        Get Directions
-                      </a>
+                      {f.directions && (
+                        <a href={f.directions} target="_blank" rel="noopener noreferrer" className="btn-outline-gold border-cream/30 text-cream hover:bg-cream/10">
+                          Get Directions
+                        </a>
+                      )}
                     </div>
                   </div>
-                </AnimateOnScroll>
-              </div>
-
-              {/* Scroll indicator */}
-              {i < allFacilities.length - 1 && (
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-                  <ChevronDown className="w-8 h-8 text-cream/50" />
                 </div>
-              )}
+              </div>
             </div>
           ))}
-        </div>
+
+          {/* Arrows */}
+          <button onClick={() => handleManualNav(-1)}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-navy/60 backdrop-blur-sm flex items-center justify-center text-gold hover:bg-navy/80 transition-colors">
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button onClick={() => handleManualNav(1)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-navy/60 backdrop-blur-sm flex items-center justify-center text-gold hover:bg-navy/80 transition-colors">
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          {/* Dots */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+            {allFacilities.map((_, i) => (
+              <button key={i} onClick={() => { setCurrentSlide(i); handleManualNav(0); }}
+                className={`w-3 h-3 rounded-full transition-all ${i === currentSlide ? "bg-gold w-8" : "bg-cream/40 hover:bg-cream/60"}`} />
+            ))}
+          </div>
+        </section>
       </Layout>
     );
   }
@@ -216,19 +241,14 @@ const FacilityPage = () => {
 
   return (
     <Layout>
-      {/* Hero with parallax image */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src={facility.image} alt={facility.name} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-navy/70" />
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-20 z-[2] bg-gradient-to-t from-background to-transparent" />
-        <div className="container mx-auto px-4 relative z-10">
+      {/* Hero with video */}
+      <VideoHero>
+        <div className="container mx-auto px-4">
           <h1 className="text-3xl md:text-5xl font-display font-bold text-cream">{facility.name}</h1>
           <p className="text-gold font-body text-lg mt-2">{facility.subtitle}</p>
           <div className="gold-accent-line mt-4" />
         </div>
-      </section>
+      </VideoHero>
 
       <section className="py-16 md:py-24 px-4">
         <div className="container mx-auto max-w-4xl">
