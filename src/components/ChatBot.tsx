@@ -61,7 +61,7 @@ const ChatBot = () => {
           {/* Header */}
           <div className="bg-navy px-4 py-3 flex items-center justify-between">
             <div>
-              <h3 className="text-cream font-display font-semibold text-sm">Iwosan Assistant</h3>
+              <h3 className="text-cream font-display font-semibold text-sm">Iwosan Lagoon Hospitals Assistant</h3>
               <p className="text-cream/60 text-xs font-body">Ask us anything</p>
             </div>
             <button onClick={() => setOpen(false)} className="text-cream/70 hover:text-cream">
@@ -113,11 +113,11 @@ const ChatBot = () => {
       {/* Floating button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full bg-navy flex items-center justify-center shadow-lg hover:scale-110 transition-transform group"
+        className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full bg-gold flex items-center justify-center shadow-lg hover:scale-110 transition-transform group"
         aria-label="Chat with us"
       >
-        <MessageCircle className="w-6 h-6 text-gold" />
-        <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-navy text-cream text-xs font-body px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+        <MessageCircle className="w-6 h-6 text-navy" />
+        <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gold text-navy text-xs font-body px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
           Ask Us
         </span>
       </button>
