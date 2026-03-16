@@ -106,11 +106,11 @@ const facilityData: Record<string, {
 
 /* ── Slider data (minimal overlay) ── */
 const allFacilities = [
-  { id: "ikoyi", name: "Iwosan Lagoon Hospital Ikoyi", subtitle: "Centre of Excellence for Critical Care & Complex Surgical Operations", image: ikoyiImg, directions: "https://goo.gl/maps/aFi61XJmGfxWywri7" },
-  { id: "ikeja", name: "Iwosan Lagoon Hospital Ikeja", subtitle: "Centre of Excellence for Mother and Child", image: ikejaObaImg, directions: "https://maps.app.goo.gl/kh9CrhBPoXFDd7Ts8" },
-  { id: "victoria-island", name: "Iwosan Lagoon Hospital Victoria Island", subtitle: "Centre of Excellence for Cardiology & Cardiac Surgery", image: viLigaliImg, directions: "https://goo.gl/maps/QLrUbjX1AhGpsn228" },
-  { id: "outpatient", name: "Iwosan Lagoon Outpatient Clinic & Wellness Centre", subtitle: "Ambulatory Care & Wellness Services", image: viOutpatientImg, directions: "https://goo.gl/maps/J3h6PAsciJidoAbW6" },
-  { id: "worksite", name: "Worksite Clinic Management", subtitle: "Occupational Health & Corporate Wellness", image: viWellnessImg, directions: "" },
+  { id: "ikoyi", name: "Iwosan Lagoon Hospital Ikoyi", subtitle: "Centre of Excellence for Critical Care & Complex Surgical Operations", address: "17B Bourdillon Road, Ikoyi, Lagos", phone: "+2347086393027", image: ikoyiImg, directions: "https://goo.gl/maps/aFi61XJmGfxWywri7" },
+  { id: "ikeja", name: "Iwosan Lagoon Hospital Ikeja", subtitle: "Centre of Excellence for Mother and Child", address: "97/101 Obafemi Awolowo Ave., Ikeja", phone: "+2347086393027", image: ikejaObaImg, directions: "https://maps.app.goo.gl/kh9CrhBPoXFDd7Ts8" },
+  { id: "victoria-island", name: "Iwosan Lagoon Hospital Victoria Island", subtitle: "Centre of Excellence for Cardiology & Cardiac Surgery", address: "3B Ligali Ayorinde Street, Victoria Island", phone: "+2347086393027", image: viLigaliImg, directions: "https://goo.gl/maps/QLrUbjX1AhGpsn228" },
+  { id: "outpatient", name: "Iwosan Lagoon Outpatient Clinic & Wellness Centre", subtitle: "Ambulatory Care & Wellness Services", address: "13A & 13B Idejo Street, Victoria Island", phone: "+2347086393027", image: viOutpatientImg, directions: "https://goo.gl/maps/J3h6PAsciJidoAbW6" },
+  { id: "worksite", name: "Worksite Clinic Management", subtitle: "Occupational Health & Corporate Wellness", address: "Multiple locations across Lagos", phone: "+2347086393027", image: viWellnessImg, directions: "" },
 ];
 
 const FacilityPage = () => {
@@ -165,7 +165,7 @@ const FacilityPage = () => {
 
         {/* Full-width horizontal slider — images as focus */}
         <section
-          className="relative h-[60vh] md:h-[70vh] lg:h-[80vh] min-h-[400px] overflow-hidden"
+          className="relative h-[50vh] md:h-[55vh] lg:h-[65vh] min-h-[350px] overflow-hidden"
           onMouseEnter={() => { pausedRef.current = true; }}
           onMouseLeave={() => { pausedRef.current = false; }}
         >
@@ -200,8 +200,16 @@ const FacilityPage = () => {
                     <div className="max-w-xl">
                       <span className="text-gold font-body text-xs md:text-sm font-semibold uppercase tracking-widest">{f.subtitle}</span>
                       <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-extrabold text-cream mt-3 uppercase">{f.name}</h2>
+                      <div className="flex items-center gap-2 mt-3 text-cream/80 text-sm font-body">
+                        <MapPin className="w-4 h-4 text-gold flex-shrink-0" />
+                        <span>{f.address}</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-1 text-cream/80 text-sm font-body">
+                        <Phone className="w-4 h-4 text-gold flex-shrink-0" />
+                        <a href={`tel:${f.phone}`} className="hover:text-gold transition-colors">{f.phone}</a>
+                      </div>
                       <div className="gold-accent-line mt-4" />
-                      <div className="flex gap-4 mt-8">
+                      <div className="flex gap-4 mt-6">
                         <Link to={`/facilities/${f.id}`} className="btn-gold">Learn More</Link>
                         {f.directions && (
                           <a href={f.directions} target="_blank" rel="noopener noreferrer" className="btn-outline-gold border-cream/30 text-cream hover:bg-cream/10">

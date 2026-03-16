@@ -34,7 +34,7 @@ const pageVariants = {
 };
 
 const pageTransition = {
-  duration: prefersReducedMotion() ? 0.15 : 0.35,
+  duration: prefersReducedMotion() ? 0.1 : 0.25,
   ease: "easeInOut" as const,
 };
 
