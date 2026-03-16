@@ -200,8 +200,16 @@ const FacilityPage = () => {
                     <div className="max-w-xl">
                       <span className="text-gold font-body text-xs md:text-sm font-semibold uppercase tracking-widest">{f.subtitle}</span>
                       <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-extrabold text-cream mt-3 uppercase">{f.name}</h2>
+                      <div className="flex items-center gap-2 mt-3 text-cream/80 text-sm font-body">
+                        <MapPin className="w-4 h-4 text-gold flex-shrink-0" />
+                        <span>{f.address}</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-1 text-cream/80 text-sm font-body">
+                        <Phone className="w-4 h-4 text-gold flex-shrink-0" />
+                        <a href={`tel:${f.phone}`} className="hover:text-gold transition-colors">{f.phone}</a>
+                      </div>
                       <div className="gold-accent-line mt-4" />
-                      <div className="flex gap-4 mt-8">
+                      <div className="flex gap-4 mt-6">
                         <Link to={`/facilities/${f.id}`} className="btn-gold">Learn More</Link>
                         {f.directions && (
                           <a href={f.directions} target="_blank" rel="noopener noreferrer" className="btn-outline-gold border-cream/30 text-cream hover:bg-cream/10">
