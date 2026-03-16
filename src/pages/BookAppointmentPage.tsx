@@ -160,14 +160,14 @@ const BookAppointmentPage = () => {
               {step === 2 && (
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-body font-medium text-primary mb-2 flex items-center gap-2">
+                    <label className="block text-sm font-body font-medium text-primary mb-2 items-center gap-2">
                       <Calendar className="w-4 h-4 text-gold" /> Preferred Date
                     </label>
                     <input type="date" value={form.date} onChange={(e) => updateForm("date", e.target.value)}
                       className="w-full px-4 py-3 rounded-lg border-2 border-border font-body text-sm focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold bg-background" />
                   </div>
                   <div>
-                    <label className="block text-sm font-body font-medium text-primary mb-2 flex items-center gap-2">
+                    <label className="block text-sm font-body font-medium text-primary mb-2 items-center gap-2">
                       <Clock className="w-4 h-4 text-gold" /> Preferred Time
                     </label>
                     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">

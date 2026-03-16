@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 
 import ikoyiImg from "@/assets/locations/ikoyi.jpg";
 import ikejaObaImg from "@/assets/locations/ikeja-oba.jpg";
+import ikejaAdeniyiJonesImg from "@/assets/locations/ikeja-adeniyi.jpg";
 import viLigaliImg from "@/assets/locations/vi-ligali.jpg";
 import viOutpatientImg from "@/assets/locations/vi-idejo-outpatient.jpg";
 import viWellnessImg from "@/assets/locations/vi-idejo-wellness.jpg";
@@ -52,6 +53,24 @@ const facilityData: Record<string, {
       { icon: Users, title: "Family-Centred Environment", desc: "Warm, supportive atmosphere designed for families" },
     ],
   },
+  ikejaAdeniyi: {
+    name: "Iwosan Lagoon Outpatient Clinic Ikeja",
+    subtitle: "Ambulatory Care & Outpatient Services",
+    address: "91 Adeniyi Jones Avenue, Ikeja",
+    phone: "+2347086393027",
+    directions: "https://goo.gl/maps/wyYBoG1WzvUzwQQR8",
+    description: "Our outpatient clinic on Adeniyi Jones Avenue provides convenient ambulatory care, outpatient consultations, and lifestyle services in a comfortable, modern setting.",
+    services: ["Outpatient Consultations", "Physiotherapy", "Dental Care", "Dermatology"],
+    image: ikejaAdeniyiJonesImg,
+    whyChoose: [
+      { icon: Stethoscope, title: "Outpatient Consultations", desc: "Convenient, walk-in consultations for non-emergency care" },
+      { icon: Clock, title: "Emergency Preparedness", desc: "Comprehensive emergency response planning and training" },
+      { icon: Activity, title: "Health Screening", desc: "Regular health assessments for early detection and prevention" },
+      { icon: Users, title: "Employee Wellness Programs", desc: "Customized wellness initiatives for your workforce" },
+      { icon: Shield, title: "Compliance & Safety", desc: "Meeting occupational health standards and regulations" },
+      { icon: Building2, title: "On-Site Excellence", desc: "Fully managed medical clinics at your workplace" },
+    ],
+  },
   "victoria-island": {
     name: "Iwosan Lagoon Hospital Victoria Island",
     subtitle: "Centre of Excellence for Cardiology & Cardiac Surgery",
@@ -70,14 +89,32 @@ const facilityData: Record<string, {
     ],
   },
   outpatient: {
-    name: "Iwosan Lagoon Outpatient Clinic & Wellness Centre",
-    subtitle: "Ambulatory Care & Wellness Services",
-    address: "13A & 13B Idejo Street, Victoria Island",
+    name: "Iwosan Lagoon Outpatient Clinic Idejo",
+    subtitle: "Ambulatory Care & Outpatient Services",
+    address: "13A Idejo Street, Victoria Island",
     phone: "+2347086393027",
     directions: "https://goo.gl/maps/J3h6PAsciJidoAbW6",
-    description: "Our outpatient clinic and wellness centre on Idejo Street provides convenient ambulatory care, wellness assessments, and lifestyle services in a comfortable, modern setting.",
-    services: ["Outpatient Consultations", "Wellness Assessments", "Physiotherapy", "Dental Care", "Dermatology", "Mental Health Services"],
+    description: "Our outpatient clinic on Idejo Street provides convenient ambulatory care, outpatient consultations, and lifestyle services in a comfortable, modern setting.",
+    services: ["Outpatient Consultations", "Physiotherapy", "Dental Care", "Dermatology"],
     image: viOutpatientImg,
+    whyChoose: [
+      { icon: Stethoscope, title: "Outpatient Consultations", desc: "Convenient, walk-in consultations for non-emergency care" },
+      { icon: Clock, title: "Emergency Preparedness", desc: "Comprehensive emergency response planning and training" },
+      { icon: Activity, title: "Health Screening", desc: "Regular health assessments for early detection and prevention" },
+      { icon: Users, title: "Employee Wellness Programs", desc: "Customized wellness initiatives for your workforce" },
+      { icon: Shield, title: "Compliance & Safety", desc: "Meeting occupational health standards and regulations" },
+      { icon: Building2, title: "On-Site Excellence", desc: "Fully managed medical clinics at your workplace" },
+    ],
+  },
+  wellness: {
+    name: "Iwosan Wellness Centre",
+    subtitle: "Physical, Mental and Emotional Health",
+    address: "13B Idejo Street, Victoria Island",
+    phone: "+2347086393027",
+    directions: "https://goo.gl/maps/J3h6PAsciJidoAbW6",
+    description: "Our Wellness centre provides convenient ambulatory care, wellness assessments, and lifestyle services in a comfortable, modern setting.",
+    services: ["Wellness Assessments", "Occupational Health Assessments", "Workplace Wellness Programs", "Emergency Preparedness", "Employee Health Screening"],
+    image: viWellnessImg,
     whyChoose: [
       { icon: Heart, title: "Holistic Wellness Approach", desc: "Balanced care for physical, mental, and emotional health" },
       { icon: Stethoscope, title: "Comprehensive Assessments", desc: "Thorough health screenings and wellness check-ups" },
@@ -86,32 +123,16 @@ const facilityData: Record<string, {
       { icon: Clock, title: "Convenient Location", desc: "Easily accessible on Victoria Island for quick visits" },
     ],
   },
-  worksite: {
-    name: "Worksite Clinic Management",
-    subtitle: "Occupational Health & Corporate Wellness",
-    address: "Multiple locations across Lagos",
-    phone: "+2347086393027",
-    directions: "",
-    description: "Our Worksite Clinic Management division provides comprehensive occupational health services to corporate clients. We manage on-site medical clinics, conduct workplace health assessments, and implement wellness programs.",
-    services: ["On-site Clinic Management", "Occupational Health Assessments", "Workplace Wellness Programs", "Emergency Preparedness", "Employee Health Screening"],
-    image: viWellnessImg,
-    whyChoose: [
-      { icon: Building2, title: "On-Site Excellence", desc: "Fully managed medical clinics at your workplace" },
-      { icon: Shield, title: "Compliance & Safety", desc: "Meeting occupational health standards and regulations" },
-      { icon: Users, title: "Employee Wellness Programs", desc: "Customized wellness initiatives for your workforce" },
-      { icon: Clock, title: "Emergency Preparedness", desc: "Comprehensive emergency response planning and training" },
-      { icon: Activity, title: "Health Screening", desc: "Regular health assessments for early detection and prevention" },
-    ],
-  },
 };
 
 /* ── Slider data (minimal overlay) ── */
 const allFacilities = [
   { id: "ikoyi", name: "Iwosan Lagoon Hospital Ikoyi", subtitle: "Centre of Excellence for Critical Care & Complex Surgical Operations", address: "17B Bourdillon Road, Ikoyi, Lagos", phone: "+2347086393027", image: ikoyiImg, directions: "https://goo.gl/maps/aFi61XJmGfxWywri7" },
   { id: "ikeja", name: "Iwosan Lagoon Hospital Ikeja", subtitle: "Centre of Excellence for Mother and Child", address: "97/101 Obafemi Awolowo Ave., Ikeja", phone: "+2347086393027", image: ikejaObaImg, directions: "https://maps.app.goo.gl/kh9CrhBPoXFDd7Ts8" },
+  { id: "ikejaAdeniyi", name: "Iwosan Lagoon Outpatient Clinic Ikeja", subtitle: "Ambulatory Care & Outpatient Services", address: "91 Adeniyi Jones Avenue, Ikeja", phone: "+2347086393027", image: ikejaAdeniyiJonesImg, directions: "https://goo.gl/maps/wyYBoG1WzvUzwQQR8" },
   { id: "victoria-island", name: "Iwosan Lagoon Hospital Victoria Island", subtitle: "Centre of Excellence for Cardiology & Cardiac Surgery", address: "3B Ligali Ayorinde Street, Victoria Island", phone: "+2347086393027", image: viLigaliImg, directions: "https://goo.gl/maps/QLrUbjX1AhGpsn228" },
-  { id: "outpatient", name: "Iwosan Lagoon Outpatient Clinic & Wellness Centre", subtitle: "Ambulatory Care & Wellness Services", address: "13A & 13B Idejo Street, Victoria Island", phone: "+2347086393027", image: viOutpatientImg, directions: "https://goo.gl/maps/J3h6PAsciJidoAbW6" },
-  { id: "worksite", name: "Worksite Clinic Management", subtitle: "Occupational Health & Corporate Wellness", address: "Multiple locations across Lagos", phone: "+2347086393027", image: viWellnessImg, directions: "" },
+  { id: "outpatient", name: "Iwosan Lagoon Outpatient Clinic", subtitle: "Ambulatory Care & Health Assessment Services", address: "13A Idejo Street, Victoria Island", phone: "+2347086393027", image: viOutpatientImg, directions: "https://goo.gl/maps/J3h6PAsciJidoAbW6" },
+  { id: "wellness", name: "Wellness Centre", subtitle: "Occupational Health & Corporate Wellness", address: "3B Idejo Street, Victoria Island", phone: "+2347086393027", image: viWellnessImg, directions: "https://goo.gl/maps/J3h6PAsciJidoAbW6" },
 ];
 
 const FacilityPage = () => {
