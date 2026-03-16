@@ -15,6 +15,7 @@ import viWellnessImg from "@/assets/locations/vi-idejo-wellness.jpg";
 const facilityData: Record<string, {
   name: string; subtitle: string; address: string; phone: string; directions: string; description: string; services: string[];
   image: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   whyChoose: { icon: any; title: string; desc: string }[];
 }> = {
   ikoyi: {
@@ -151,7 +152,7 @@ const FacilityPage = () => {
       <Layout>
         <VideoHero>
           <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold text-cream uppercase tracking-wide">Our Facilities</h1>
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-cream">Our Facilities</h1>
             <p className="text-cream/70 font-body text-base md:text-lg mt-3 font-light">World-class healthcare across Lagos</p>
             <div className="gold-accent-line mt-4" />
           </div>
