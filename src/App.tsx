@@ -1,10 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
 import Index from "./pages/Index";
 import AboutPage from "./pages/AboutPage";
@@ -23,20 +23,40 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const pageVariants = {
+  initial: { opacity: 0, y: prefersReducedMotion() ? 0 : 20 },
+  in: { opacity: 1, y: 0 },
+  out: { opacity: 0, y: prefersReducedMotion() ? 0 : -20 },
+};
+
+const pageTransition = {
+  duration: prefersReducedMotion() ? 0.15 : 0.35,
+  ease: [0.42, 0, 0.58, 1],
+};
+
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname}
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransition}
+      >
+        <Routes location={location}>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/team" element={<TeamPage />} />
@@ -53,6 +73,19 @@ const App = () => (
           <Route path="/health-education" element={<HealthEducationPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <ScrollToTop />
+        <AnimatedRoutes />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

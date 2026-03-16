@@ -11,6 +11,7 @@ import viLigaliImg from "@/assets/locations/vi-ligali.jpg";
 import viOutpatientImg from "@/assets/locations/vi-idejo-outpatient.jpg";
 import viWellnessImg from "@/assets/locations/vi-idejo-wellness.jpg";
 
+/* ── Facility detail data ── */
 const facilityData: Record<string, {
   name: string; subtitle: string; address: string; phone: string; directions: string; description: string; services: string[];
   image: string;
@@ -103,12 +104,13 @@ const facilityData: Record<string, {
   },
 };
 
+/* ── Slider data (minimal overlay) ── */
 const allFacilities = [
-  { id: "ikoyi", name: "Iwosan Lagoon Hospital Ikoyi", subtitle: "Centre of Excellence for Critical Care & Complex Surgical Operations", address: "17B Bourdillon Road, Ikoyi, Lagos", image: ikoyiImg, services: ["Neurosurgery", "General Surgery", "Critical Care", "Cardiology"], directions: "https://goo.gl/maps/aFi61XJmGfxWywri7" },
-  { id: "ikeja", name: "Iwosan Lagoon Hospital Ikeja", subtitle: "Centre of Excellence for Mother and Child", address: "97/101 Obafemi Awolowo Ave., Ikeja", image: ikejaObaImg, services: ["Obstetrics & Gynaecology", "Paediatrics & NICU", "Family Medicine"], directions: "https://maps.app.goo.gl/kh9CrhBPoXFDd7Ts8" },
-  { id: "victoria-island", name: "Iwosan Lagoon Hospital Victoria Island", subtitle: "Centre of Excellence for Cardiology & Cardiac Surgery", address: "3B Ligali Ayorinde Street, VI", image: viLigaliImg, services: ["Cardiology", "Cardiac Surgery", "Internal Medicine"], directions: "https://goo.gl/maps/QLrUbjX1AhGpsn228" },
-  { id: "outpatient", name: "Iwosan Lagoon Outpatient Clinic & Wellness Centre", subtitle: "Ambulatory Care & Wellness Services", address: "13A & 13B Idejo Street, VI", image: viOutpatientImg, services: ["Wellness Assessments", "Physiotherapy", "Mental Health"], directions: "https://goo.gl/maps/J3h6PAsciJidoAbW6" },
-  { id: "worksite", name: "Worksite Clinic Management", subtitle: "Occupational Health & Corporate Wellness", address: "Multiple locations across Lagos", image: viWellnessImg, services: ["On-site Clinic Management", "Employee Health Screening"], directions: "" },
+  { id: "ikoyi", name: "Iwosan Lagoon Hospital Ikoyi", subtitle: "Centre of Excellence for Critical Care & Complex Surgical Operations", image: ikoyiImg, directions: "https://goo.gl/maps/aFi61XJmGfxWywri7" },
+  { id: "ikeja", name: "Iwosan Lagoon Hospital Ikeja", subtitle: "Centre of Excellence for Mother and Child", image: ikejaObaImg, directions: "https://maps.app.goo.gl/kh9CrhBPoXFDd7Ts8" },
+  { id: "victoria-island", name: "Iwosan Lagoon Hospital Victoria Island", subtitle: "Centre of Excellence for Cardiology & Cardiac Surgery", image: viLigaliImg, directions: "https://goo.gl/maps/QLrUbjX1AhGpsn228" },
+  { id: "outpatient", name: "Iwosan Lagoon Outpatient Clinic & Wellness Centre", subtitle: "Ambulatory Care & Wellness Services", image: viOutpatientImg, directions: "https://goo.gl/maps/J3h6PAsciJidoAbW6" },
+  { id: "worksite", name: "Worksite Clinic Management", subtitle: "Occupational Health & Corporate Wellness", image: viWellnessImg, directions: "" },
 ];
 
 const FacilityPage = () => {
@@ -143,71 +145,84 @@ const FacilityPage = () => {
     }, 4000);
   };
 
-  // Listing page - horizontal auto-scrolling slider
+  /* ── LISTING PAGE ── */
   if (!facilityId) {
     return (
       <Layout>
         <VideoHero>
           <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Our Facilities</h1>
-            <p className="text-cream/70 font-body text-lg mt-3">World-class healthcare across Lagos</p>
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold text-cream uppercase tracking-wide">Our Facilities</h1>
+            <p className="text-cream/70 font-body text-base md:text-lg mt-3 font-light">World-class healthcare across Lagos</p>
             <div className="gold-accent-line mt-4" />
           </div>
         </VideoHero>
 
-        {/* Full-width horizontal slider */}
+        {/* Spacer with label */}
+        <div className="pt-10 md:pt-[52px] lg:pt-[72px] pb-4 text-center">
+          <span className="text-xs md:text-sm font-body font-medium uppercase tracking-[0.2em] text-muted-foreground">Our Locations</span>
+          <div className="gold-accent-line mx-auto mt-2" />
+        </div>
+
+        {/* Full-width horizontal slider — images as focus */}
         <section
-          className="relative h-[80vh] min-h-[500px] overflow-hidden"
+          className="relative h-[60vh] md:h-[70vh] lg:h-[80vh] min-h-[400px] overflow-hidden"
           onMouseEnter={() => { pausedRef.current = true; }}
           onMouseLeave={() => { pausedRef.current = false; }}
         >
-          {allFacilities.map((f, i) => (
-            <div
-              key={f.id}
-              className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-                i === currentSlide ? "opacity-100 translate-x-0" :
-                i < currentSlide ? "opacity-0 -translate-x-full" : "opacity-0 translate-x-full"
-              }`}
-            >
-              {/* Background image */}
-              <img src={f.image} alt={f.name} className="absolute inset-0 w-full h-full object-cover" loading={i === 0 ? "eager" : "lazy"} width={1920} height={1080} />
-              <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/60 to-transparent" />
+          {allFacilities.map((f, i) => {
+            const isActive = i === currentSlide;
+            const offset = i - currentSlide;
+            return (
+              <div
+                key={f.id}
+                className="absolute inset-0 will-change-transform"
+                style={{
+                  transform: `translateX(${offset * 100}%)`,
+                  transition: "transform 600ms cubic-bezier(0.42, 0, 0.58, 1)",
+                  visibility: Math.abs(offset) <= 1 ? "visible" : "hidden",
+                }}
+              >
+                {/* Background image — full resolution, no blur */}
+                <img
+                  src={f.image}
+                  alt={f.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ imageRendering: "auto" }}
+                  loading={Math.abs(offset) <= 1 ? "eager" : "lazy"}
+                  width={1920}
+                  height={1080}
+                />
+                {/* Minimal gradient — left side only for text legibility */}
+                <div className="absolute inset-0 bg-gradient-to-r from-navy/80 via-navy/40 to-transparent" />
 
-              <div className="relative z-10 h-full flex items-center">
-                <div className="container mx-auto px-4">
-                  <div className="max-w-2xl">
-                    <span className="text-gold font-body text-sm font-semibold uppercase tracking-wider">{f.subtitle}</span>
-                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-cream mt-3">{f.name}</h2>
-                    <div className="gold-accent-line mt-4" />
-                    <p className="text-cream/70 font-body mt-4 flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-gold" /> {f.address}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-6">
-                      {f.services.map((s) => (
-                        <span key={s} className="bg-cream/10 text-cream text-xs font-body px-3 py-1.5 rounded-full">{s}</span>
-                      ))}
-                    </div>
-                    <div className="flex gap-4 mt-8">
-                      <Link to={`/facilities/${f.id}`} className="btn-gold">Learn More</Link>
-                      {f.directions && (
-                        <a href={f.directions} target="_blank" rel="noopener noreferrer" className="btn-outline-gold border-cream/30 text-cream hover:bg-cream/10">
-                          Get Directions
-                        </a>
-                      )}
+                <div className="relative z-10 h-full flex items-center">
+                  <div className="container mx-auto px-4">
+                    <div className="max-w-xl">
+                      <span className="text-gold font-body text-xs md:text-sm font-semibold uppercase tracking-widest">{f.subtitle}</span>
+                      <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-extrabold text-cream mt-3 uppercase">{f.name}</h2>
+                      <div className="gold-accent-line mt-4" />
+                      <div className="flex gap-4 mt-8">
+                        <Link to={`/facilities/${f.id}`} className="btn-gold">Learn More</Link>
+                        {f.directions && (
+                          <a href={f.directions} target="_blank" rel="noopener noreferrer" className="btn-outline-gold border-cream/30 text-cream hover:bg-cream/10">
+                            Get Directions
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
           {/* Arrows */}
           <button onClick={() => handleManualNav(-1)}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-navy/60 backdrop-blur-sm flex items-center justify-center text-gold hover:bg-navy/80 transition-colors">
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-navy/60 backdrop-blur-sm flex items-center justify-center text-gold hover:bg-navy/80 hover:scale-110 transition-all">
             <ChevronLeft className="w-6 h-6" />
           </button>
           <button onClick={() => handleManualNav(1)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-navy/60 backdrop-blur-sm flex items-center justify-center text-gold hover:bg-navy/80 transition-colors">
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-navy/60 backdrop-blur-sm flex items-center justify-center text-gold hover:bg-navy/80 hover:scale-110 transition-all">
             <ChevronRight className="w-6 h-6" />
           </button>
 
@@ -215,7 +230,7 @@ const FacilityPage = () => {
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
             {allFacilities.map((_, i) => (
               <button key={i} onClick={() => { setCurrentSlide(i); handleManualNav(0); }}
-                className={`w-3 h-3 rounded-full transition-all ${i === currentSlide ? "bg-gold w-8" : "bg-cream/40 hover:bg-cream/60"}`} />
+                className={`h-3 rounded-full transition-all ${i === currentSlide ? "bg-gold w-8" : "bg-cream/40 w-3 hover:bg-cream/60"}`} />
             ))}
           </div>
         </section>
@@ -223,12 +238,13 @@ const FacilityPage = () => {
     );
   }
 
+  /* ── NOT FOUND ── */
   if (!facility) {
     return (
       <Layout>
         <VideoHero>
           <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Facility Not Found</h1>
+            <h1 className="text-3xl md:text-5xl font-display font-extrabold text-cream uppercase">Facility Not Found</h1>
             <div className="gold-accent-line mt-4" />
           </div>
         </VideoHero>
@@ -239,13 +255,13 @@ const FacilityPage = () => {
     );
   }
 
+  /* ── DETAIL PAGE ── */
   return (
     <Layout>
-      {/* Hero with video */}
       <VideoHero>
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl md:text-5xl font-display font-bold text-cream">{facility.name}</h1>
-          <p className="text-gold font-body text-lg mt-2">{facility.subtitle}</p>
+          <h1 className="text-2xl md:text-4xl lg:text-5xl font-display font-extrabold text-cream uppercase">{facility.name}</h1>
+          <p className="text-gold font-body text-base md:text-lg mt-2 font-medium">{facility.subtitle}</p>
           <div className="gold-accent-line mt-4" />
         </div>
       </VideoHero>
@@ -270,13 +286,6 @@ const FacilityPage = () => {
                   </a>
                 )}
               </div>
-            </div>
-          </AnimateOnScroll>
-
-          {/* Google Maps placeholder */}
-          <AnimateOnScroll>
-            <div className="bg-muted rounded-2xl h-64 flex items-center justify-center mb-12">
-              <p className="text-muted-foreground font-body">Google Maps Embed</p>
             </div>
           </AnimateOnScroll>
 
