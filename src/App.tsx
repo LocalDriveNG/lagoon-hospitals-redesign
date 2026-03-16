@@ -35,7 +35,7 @@ const pageVariants = {
 
 const pageTransition = {
   duration: prefersReducedMotion() ? 0.15 : 0.35,
-  ease: [0.42, 0, 0.58, 1],
+  ease: "easeInOut" as const,
 };
 
 const ScrollToTop = () => {
