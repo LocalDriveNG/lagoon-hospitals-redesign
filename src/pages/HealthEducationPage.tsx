@@ -18,7 +18,7 @@ const HealthEducationPage = () => {
     <Layout>
       <VideoHero>
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Your Health and You</h1>
+          <h1 className="text-4xl md:text-6xl font-display text-cream">Your Health and You</h1>
           <p className="text-cream/70 font-body text-lg mt-3">Health Education on Classic FM 97.3 | Tuesdays 5:30 PM</p>
           <div className="gold-accent-line mt-4" />
         </div>

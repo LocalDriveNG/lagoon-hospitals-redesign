@@ -48,7 +48,7 @@ const FAQPage = () => {
     <Layout>
       <VideoHero>
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Frequently Asked Questions</h1>
+          <h1 className="text-4xl md:text-6xl font-display text-cream">Frequently Asked Questions</h1>
           <div className="gold-accent-line mt-4" />
         </div>
       </VideoHero>

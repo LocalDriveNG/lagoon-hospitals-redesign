@@ -16,7 +16,7 @@ const PatientRightsPage = () => {
     <Layout>
       <VideoHero>
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Patient Rights</h1>
+          <h1 className="text-4xl md:text-6xl font-display text-cream">Patient Rights</h1>
           <p className="text-cream/70 font-body text-lg mt-3">Your rights as a patient at Iwosan Lagoon Hospitals</p>
           <div className="gold-accent-line mt-4" />
         </div>

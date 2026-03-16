@@ -30,7 +30,7 @@ const ServicesPage = () => {
     <Layout>
       <VideoHero>
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Our Services</h1>
+          <h1 className="text-4xl md:text-6xl font-display text-cream">Our Services</h1>
           <p className="text-cream/70 font-body text-lg mt-4 max-w-xl">
             Comprehensive world-class healthcare services across multiple specialties.
           </p>

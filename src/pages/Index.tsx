@@ -149,7 +149,7 @@ const Index = () => {
         ))}
         <div className="absolute inset-0 flex items-center justify-center z-10">
           <div className="text-center max-w-3xl px-6">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-cream mb-4 leading-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display text-cream mb-4 leading-tight">
               {heroSlides[currentSlide].title}
             </h1>
             <p className="text-lg md:text-xl text-cream/80 font-body mb-8">{heroSlides[currentSlide].subtitle}</p>

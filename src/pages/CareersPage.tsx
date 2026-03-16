@@ -18,7 +18,7 @@ const CareersPage = () => {
     <Layout>
       <VideoHero>
         <div className="container mx-auto px-4 relative z-10">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Careers</h1>
+          <h1 className="text-4xl md:text-6xl font-display text-cream">Careers</h1>
           <p className="text-cream/70 font-body text-lg mt-4 max-w-xl">
             Join our team of dedicated healthcare professionals making a difference.
           </p>

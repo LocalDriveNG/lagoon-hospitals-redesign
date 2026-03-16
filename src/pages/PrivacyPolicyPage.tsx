@@ -6,7 +6,7 @@ const PrivacyPolicyPage = () => {
     <Layout>
       <VideoHero>
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Privacy Policy</h1>
+          <h1 className="text-4xl md:text-6xl font-display text-cream">Privacy Policy</h1>
           <div className="gold-accent-line mt-4" />
         </div>
       </VideoHero>

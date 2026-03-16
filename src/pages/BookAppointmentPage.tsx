@@ -54,7 +54,7 @@ const BookAppointmentPage = () => {
       <Layout>
         <VideoHero>
           <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Appointment Confirmed</h1>
+            <h1 className="text-4xl md:text-6xl font-display text-cream">Appointment Confirmed</h1>
             <div className="gold-accent-line mt-4" />
           </div>
         </VideoHero>
@@ -81,7 +81,7 @@ const BookAppointmentPage = () => {
     <Layout>
       <VideoHero>
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-cream">Book an Appointment</h1>
+          <h1 className="text-4xl md:text-6xl font-display text-cream">Book an Appointment</h1>
           <p className="text-cream/70 font-body text-lg mt-4">We're here for you — let's find the right time and place.</p>
           <div className="gold-accent-line mt-4" />
         </div>

@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
 import VideoHero from "@/components/VideoHero";
 import { Link, useParams } from "react-router-dom";
-import { MapPin, Phone, ArrowRight, ChevronLeft, ChevronRight, Shield, Heart, Clock, Users, Stethoscope, Activity, Baby, Building2 } from "lucide-react";
+import { MapPin, Phone, ArrowRight, ChevronLeft, ChevronRight, Shield, Heart, Clock, Users, Stethoscope, Activity, Baby, Building2, Mail } from "lucide-react";
 import { useEffect, useRef, useState, useCallback } from "react";
 
 import ikoyiImg from "@/assets/locations/ikoyi.jpg";
@@ -152,7 +152,7 @@ const FacilityPage = () => {
       <Layout>
         <VideoHero>
           <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-cream">Our Facilities</h1>
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-display text-cream">Our Facilities</h1>
             <p className="text-cream/70 font-body text-base md:text-lg mt-3 font-light">World-class healthcare across Lagos</p>
             <div className="gold-accent-line mt-4" />
           </div>
@@ -243,6 +243,29 @@ const FacilityPage = () => {
             ))}
           </div>
         </section>
+
+
+              {/* NEWSLETTER */}
+      <AnimateOnScroll>
+        <section className="py-16 md:py-20 px-4">
+          <div className="container mx-auto max-w-2xl text-center">
+            <h2 className="section-heading section-heading-center">Join Our Mailing List</h2>
+            <p className="text-muted-foreground font-body mt-6 mb-8">
+              We send emails only when necessary — sign up for updates on discounts, services and campaigns.
+            </p>
+            <form className="flex flex-col sm:flex-row gap-3" onSubmit={(e) => e.preventDefault()}>
+              <input
+                type="email"
+                placeholder="Your email address"
+                className="flex-1 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+              />
+              <button type="submit" className="btn-gold px-8">
+                <Mail className="w-4 h-4 mr-2" /> Submit
+              </button>
+            </form>
+          </div>
+        </section>
+      </AnimateOnScroll>
       </Layout>
     );
   }
