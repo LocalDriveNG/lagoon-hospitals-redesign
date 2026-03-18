@@ -43,7 +43,7 @@ const NewsPage = () => {
               <AnimateOnScroll key={i}>
                 <div className="bg-card rounded-xl overflow-hidden card-hover group h-full flex flex-col">
                   <div className="aspect-video">
-                    <img src={n.image} alt={n.title} className="w-full h-full object-cover" loading="lazy" width={600} height={338} />
+                    <img src={n.image} alt={n.title} className="w-full h-full object-cover" />
                   </div>
                   <div className="p-6 flex flex-col flex-1">
                     <span className="text-xs font-body text-gold font-semibold uppercase tracking-wider">{n.category}</span>

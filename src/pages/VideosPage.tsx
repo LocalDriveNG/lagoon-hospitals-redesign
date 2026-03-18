@@ -32,7 +32,7 @@ const VideosPage = () => {
               <AnimateOnScroll key={i}>
                 <div className="bg-card rounded-xl overflow-hidden card-hover group cursor-pointer">
                   <div className="relative aspect-video">
-                    <img src={v.image} alt={v.title} className="w-full h-full object-cover" loading="lazy" width={600} height={338} />
+                    <img src={v.image} alt={v.title} className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-navy/30 flex items-center justify-center group-hover:bg-navy/50 transition-colors">
                       <div className="w-16 h-16 rounded-full bg-gold flex items-center justify-center group-hover:scale-110 transition-transform">
                         <Play className="w-7 h-7 text-cream ml-1" />
