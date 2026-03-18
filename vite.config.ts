@@ -23,23 +23,18 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    chunkSizeWarningLimit: 1500,
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (!id.includes("node_modules")) return;
-          if (id.includes("/react/") || id.includes("/react-dom/")) return "react";
-          if (id.includes("/react-router-dom/")) return "router";
-          if (id.includes("/@radix-ui/")) return "radix";
-          if (id.includes("/recharts/") || id.includes("/d3-")) return "charts";
-          if (id.includes("/framer-motion/")) return "motion";
-          if (id.includes("/date-fns/") || id.includes("/react-day-picker/")) return "dates";
-          if (id.includes("/@tanstack/react-query/")) return "query";
-          if (id.includes("/react-hook-form/") || id.includes("/@hookform/")) return "forms";
-          if (id.includes("/lucide-react/")) return "icons";
-          return "vendor";
+        manualChunks: {
+          // Vendor chunks
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tabs', '@radix-ui/react-toast', '@radix-ui/react-tooltip'],
+          'vendor-charts': ['recharts'],
+          'vendor-excel': ['exceljs'],
+          'vendor-utils': ['date-fns', 'clsx', 'tailwind-merge', 'class-variance-authority'],
         },
       },
     },
+    chunkSizeWarningLimit: 1000,
   },
 }));
