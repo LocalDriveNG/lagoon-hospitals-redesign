@@ -7,7 +7,7 @@ interface VideoHeroProps {
 
 const VideoHero = ({ children, className = "" }: VideoHeroProps) => {
   return (
-    <section className={`relative h-[30vh] md:h-[35vh] lg:h-[42vh] overflow-hidden ${className}`}>
+    <section className={`relative h-[38vh] md:h-[45vh] lg:h-[55vh] overflow-hidden ${className}`}>
       {/* Poster background — visible instantly before video loads */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center"

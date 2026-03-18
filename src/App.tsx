@@ -6,7 +6,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-// Eager imports — eliminates blank page from lazy loading + Suspense + AnimatePresence conflict
 import Index from "./pages/Index";
 import AboutPage from "./pages/AboutPage";
 import TeamPage from "./pages/TeamPage";
