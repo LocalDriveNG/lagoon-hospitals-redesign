@@ -3,23 +3,24 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Suspense, lazy, useEffect } from "react";
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const Index = lazy(() => import("./pages/Index"));
-const AboutPage = lazy(() => import("./pages/AboutPage"));
-const TeamPage = lazy(() => import("./pages/TeamPage"));
-const FAQPage = lazy(() => import("./pages/FAQPage"));
-const ServicesPage = lazy(() => import("./pages/ServicesPage"));
-const FacilityPage = lazy(() => import("./pages/FacilityPage"));
-const CareersPage = lazy(() => import("./pages/CareersPage"));
-const NewsPage = lazy(() => import("./pages/NewsPage"));
-const VideosPage = lazy(() => import("./pages/VideosPage"));
-const BookAppointmentPage = lazy(() => import("./pages/BookAppointmentPage"));
-const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
-const PatientRightsPage = lazy(() => import("./pages/PatientRightsPage"));
-const HealthEducationPage = lazy(() => import("./pages/HealthEducationPage"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+// Eager imports — eliminates blank page from lazy loading + Suspense + AnimatePresence conflict
+import Index from "./pages/Index";
+import AboutPage from "./pages/AboutPage";
+import TeamPage from "./pages/TeamPage";
+import FAQPage from "./pages/FAQPage";
+import ServicesPage from "./pages/ServicesPage";
+import FacilityPage from "./pages/FacilityPage";
+import CareersPage from "./pages/CareersPage";
+import NewsPage from "./pages/NewsPage";
+import VideosPage from "./pages/VideosPage";
+import BookAppointmentPage from "./pages/BookAppointmentPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import PatientRightsPage from "./pages/PatientRightsPage";
+import HealthEducationPage from "./pages/HealthEducationPage";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -37,12 +38,6 @@ const pageTransition = {
   duration: prefersReducedMotion() ? 0.1 : 0.25,
   ease: "easeInOut" as const,
 };
-
-const PageFallback = () => (
-  <div className="min-h-[50vh] flex items-center justify-center font-body text-sm text-muted-foreground">
-    Loading...
-  </div>
-);
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -62,25 +57,23 @@ const AnimatedRoutes = () => {
         variants={pageVariants}
         transition={pageTransition}
       >
-        <Suspense fallback={<PageFallback />}>
-          <Routes location={location}>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/team" element={<TeamPage />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/facilities" element={<FacilityPage />} />
-            <Route path="/facilities/:facilityId" element={<FacilityPage />} />
-            <Route path="/careers" element={<CareersPage />} />
-            <Route path="/news" element={<NewsPage />} />
-            <Route path="/videos" element={<VideosPage />} />
-            <Route path="/book-appointment" element={<BookAppointmentPage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-            <Route path="/patient-rights" element={<PatientRightsPage />} />
-            <Route path="/health-education" element={<HealthEducationPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
+        <Routes location={location}>
+          <Route path="/" element={<Index />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/team" element={<TeamPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/facilities" element={<FacilityPage />} />
+          <Route path="/facilities/:facilityId" element={<FacilityPage />} />
+          <Route path="/careers" element={<CareersPage />} />
+          <Route path="/news" element={<NewsPage />} />
+          <Route path="/videos" element={<VideosPage />} />
+          <Route path="/book-appointment" element={<BookAppointmentPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/patient-rights" element={<PatientRightsPage />} />
+          <Route path="/health-education" element={<HealthEducationPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </motion.div>
     </AnimatePresence>
   );
