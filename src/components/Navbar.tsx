@@ -51,7 +51,7 @@ const Navbar = () => {
       }`}>
         <div className="container mx-auto px-4 flex items-center justify-between h-16 md:h-20">
           <Link to="/" className="flex-shrink-0">
-            <img src={logoWhite} alt="Iwosan Lagoon Hospitals" className="h-10 md:h-14 w-auto" />
+            <img src={logoWhite} alt="Iwosan Lagoon Hospitals" className="h-10 md:h-14 w-auto" loading="eager" width={160} height={56} />
           </Link>
 
           {/* Desktop Nav */}

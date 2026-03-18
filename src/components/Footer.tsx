@@ -30,7 +30,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="space-y-4">
-            <img src={logoDark} alt="Iwosan Lagoon Hospitals" className="h-12 w-auto brightness-0 invert" loading="lazy" />
+            <img src={logoDark} alt="Iwosan Lagoon Hospitals" className="h-12 w-auto brightness-0 invert" loading="lazy" width={160} height={48} />
             <p className="text-sm text-cream/70 font-body leading-relaxed">
               We are a consistently patient-first, world-class healthcare service provider and the leading private tertiary care organization in Nigeria.
             </p>
